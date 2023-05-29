@@ -56,6 +56,8 @@ namespace TimeTableRSREUKURSACH {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Name;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ audit;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ WeekDay;
+	private: System::Windows::Forms::DataVisualization::Charting::Chart^ Diagram;
+
 
 
 
@@ -88,6 +90,9 @@ namespace TimeTableRSREUKURSACH {
 		{
 			System::Windows::Forms::DataGridViewCellStyle^ dataGridViewCellStyle1 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
 			System::Windows::Forms::DataGridViewCellStyle^ dataGridViewCellStyle2 = (gcnew System::Windows::Forms::DataGridViewCellStyle());
+			System::Windows::Forms::DataVisualization::Charting::ChartArea^ chartArea1 = (gcnew System::Windows::Forms::DataVisualization::Charting::ChartArea());
+			System::Windows::Forms::DataVisualization::Charting::Legend^ legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
+			System::Windows::Forms::DataVisualization::Charting::Series^ series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->closing_bt = (gcnew System::Windows::Forms::Button());
 			this->TodayTt = (gcnew System::Windows::Forms::Button());
@@ -105,7 +110,9 @@ namespace TimeTableRSREUKURSACH {
 			this->WeekDay = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->Week = (gcnew System::Windows::Forms::TextBox());
 			this->DevRequest = (gcnew System::Windows::Forms::Label());
+			this->Diagram = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dailyTimetable))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Diagram))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// closing_bt
@@ -336,12 +343,30 @@ namespace TimeTableRSREUKURSACH {
 			this->DevRequest->TabIndex = 11;
 			this->DevRequest->Text = L"Какая сейчас\r\nучебная неделя\?";
 			// 
+			// Diagram
+			// 
+			chartArea1->Name = L"ChartArea1";
+			this->Diagram->ChartAreas->Add(chartArea1);
+			legend1->Name = L"Legend1";
+			this->Diagram->Legends->Add(legend1);
+			this->Diagram->Location = System::Drawing::Point(582, 12);
+			this->Diagram->Name = L"Diagram";
+			series1->ChartArea = L"ChartArea1";
+			series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Pie;
+			series1->Legend = L"Legend1";
+			series1->Name = L"Series1";
+			this->Diagram->Series->Add(series1);
+			this->Diagram->Size = System::Drawing::Size(192, 183);
+			this->Diagram->TabIndex = 12;
+			this->Diagram->Text = L"chart1";
+			// 
 			// MyForm
 			// 
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::None;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(69)), static_cast<System::Int32>(static_cast<System::Byte>(69)),
 				static_cast<System::Int32>(static_cast<System::Byte>(69)));
 			this->ClientSize = System::Drawing::Size(992, 495);
+			this->Controls->Add(this->Diagram);
 			this->Controls->Add(this->DevRequest);
 			this->Controls->Add(this->Week);
 			this->Controls->Add(this->dailyTimetable);
@@ -358,11 +383,12 @@ namespace TimeTableRSREUKURSACH {
 			this->ForeColor = System::Drawing::Color::Black;
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
-		//	this->Name = L"MyForm";
+			//this->Name = L"MyForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"RSREU Timetable";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dailyTimetable))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Diagram))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 

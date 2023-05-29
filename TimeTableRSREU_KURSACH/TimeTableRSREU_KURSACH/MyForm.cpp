@@ -484,6 +484,51 @@ System::Void TimeTableRSREUKURSACH::MyForm::NextWeekTt_Click(System::Object^ sen
 
 System::Void TimeTableRSREUKURSACH::MyForm::EVMTt_Click(System::Object^ sender, System::EventArgs^ e)
 {
+	dailyTimetable->Rows->Clear();
+	List<FileManager^>^ fm = readdocument();
+
+	for (int i = 0; i < 6; i++)
+		dailyTimetable->Rows->Add();
+	int j = 0; String^ day;
+	for (int i = 0; i < fm->Count; i++)
+	{
+		if (!(Week->Text == "числитель" || Week->Text == "Числитель" || Week->Text == "знаменатель" || Week->Text == "Знаменатель")) {
+			//DevRequest->Text="ВВЕДИТЕ УЧ. НЕДЕЛЮ!";
+			break;
+		}
+		if (isDayofWeek(fm[i]->chooseweek))
+		{
+			day = fm[i]->chooseweek;
+			i++;
+		}
+		if(fm[i]->lessplace=="   а. 209" || fm[i]->lessplace == "   а. 210" || fm[i]->lessplace == "   а. 122" || fm[i]->lessplace == "   а. 02/1" || fm[i]->lessplace == "   а. 02/2" || fm[i]->lessplace == "   а. 32")
+		{	
+		if (Week->Text == "знаменатель" || Week->Text == "Знаменатель")
+		{
+			if (fm[i]->chooseweek->ToString() == "  (числитель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
+			{
+				dailyTimetable->Rows[j]->Cells[4]->Value = printDayWeek(day);
+				dailyTimetable->Rows[j]->Cells[0]->Value = fm[i]->numlesson;
+				dailyTimetable->Rows[j]->Cells[1]->Value = fm[i]->typelesson;
+				dailyTimetable->Rows[j]->Cells[2]->Value = fm[i]->namelesson;
+				dailyTimetable->Rows[j]->Cells[3]->Value = fm[i]->lessplace;
+				j++;
+			}
+		}
+		if (Week->Text == "числитель" || Week->Text == "Числитель")
+		{
+			if (fm[i]->chooseweek->ToString() == "  (знаменатель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
+			{
+				dailyTimetable->Rows[j]->Cells[4]->Value = printDayWeek(day);
+				dailyTimetable->Rows[j]->Cells[0]->Value = fm[i]->numlesson;
+				dailyTimetable->Rows[j]->Cells[1]->Value = fm[i]->typelesson;
+				dailyTimetable->Rows[j]->Cells[2]->Value = fm[i]->namelesson;
+				dailyTimetable->Rows[j]->Cells[3]->Value = fm[i]->lessplace;
+				j++;
+			}
+		}
+		}
+	}
 	return System::Void();
 }
 
