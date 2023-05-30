@@ -176,6 +176,29 @@ String^ printDayWeek(String^ day)
 	}
 }
 
+int countLessons(List<FileManager^>^ fm, String^ lesson, String^ week)
+{
+	if (!(week == "числитель" || week == "Числитель" || week == "знаменатель" || week == "Знаменатель")) {
+		//DevRequest->Text="ВВЕДИТЕ УЧ. НЕДЕЛЮ!";
+		return 0;
+	}
+	int cntch = 0, cntzn=0;
+	for (int i = 0; i < fm->Count; i++)
+	{
+		if (fm[i]->typelesson == lesson) 
+		{
+			if((week == "числитель" || week == "Числитель")&&(fm[i]->chooseweek->ToString() == "  (числитель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)"))
+				cntch++;
+			if ((week == "знаменатель" || week == "Знаменатель") && (fm[i]->chooseweek->ToString() == "  (знаменатель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)"))
+				cntzn++;
+		}
+	}
+	if ((week == "числитель" || week == "Числитель"))
+		return cntch;
+	if ((week == "знаменатель" || week == "Знаменатель"))
+		return cntzn;
+}
+
 [STAThread]
 int main()
 {
@@ -534,6 +557,15 @@ System::Void TimeTableRSREUKURSACH::MyForm::EVMTt_Click(System::Object^ sender, 
 
 System::Void TimeTableRSREUKURSACH::MyForm::Diagramma_Click(System::Object^ sender, System::EventArgs^ e)
 {
+	List<FileManager^>^ fm = readdocument();
+	Diagram->Visible = true;
+	Diagram->Series->Clear();
+	Diagram->Series->Add("упр.");
+	Diagram->Series["упр."]->Points->Add(countLessons(fm, "   упр.", Week->Text));
+	Diagram->Series->Add("лек.");
+	Diagram->Series["лек."]->Points->Add(countLessons(fm, "   лек.", Week->Text));
+	Diagram->Series->Add("лаб.");
+	Diagram->Series["лаб."]->Points->Add(countLessons(fm, "   лаб.", Week->Text));
 	return System::Void();
 }
 

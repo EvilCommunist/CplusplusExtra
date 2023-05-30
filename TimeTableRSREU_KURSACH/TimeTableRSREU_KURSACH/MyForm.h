@@ -345,6 +345,9 @@ namespace TimeTableRSREUKURSACH {
 			// 
 			// Diagram
 			// 
+			this->Diagram->BackColor = System::Drawing::Color::DarkGray;
+			this->Diagram->BackSecondaryColor = System::Drawing::Color::DarkGray;
+			this->Diagram->BorderlineColor = System::Drawing::Color::DarkGray;
 			chartArea1->Name = L"ChartArea1";
 			this->Diagram->ChartAreas->Add(chartArea1);
 			legend1->Name = L"Legend1";
@@ -353,12 +356,17 @@ namespace TimeTableRSREUKURSACH {
 			this->Diagram->Name = L"Diagram";
 			series1->ChartArea = L"ChartArea1";
 			series1->ChartType = System::Windows::Forms::DataVisualization::Charting::SeriesChartType::Pie;
+			series1->Color = System::Drawing::Color::DarkGray;
+			series1->IsXValueIndexed = true;
 			series1->Legend = L"Legend1";
 			series1->Name = L"Series1";
+			series1->XValueMember = L"MyForm.cpp";
 			this->Diagram->Series->Add(series1);
 			this->Diagram->Size = System::Drawing::Size(192, 183);
 			this->Diagram->TabIndex = 12;
-			this->Diagram->Text = L"chart1";
+			this->Diagram->Text = L"Äטאדנאללא";
+			this->Diagram->Visible = false;
+			this->Diagram->Click += gcnew System::EventHandler(this, &MyForm::Diagram_Click);
 			// 
 			// MyForm
 			// 
@@ -383,7 +391,7 @@ namespace TimeTableRSREUKURSACH {
 			this->ForeColor = System::Drawing::Color::Black;
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
-			//this->Name = L"MyForm";
+		//	this->Name = L"MyForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"RSREU Timetable";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
@@ -407,5 +415,7 @@ private: System::Void EVMTt_Click(System::Object^ sender, System::EventArgs^ e);
 private: System::Void Diagramma_Click(System::Object^ sender, System::EventArgs^ e);
 private: System::Void Week_TextChanged(System::Object^ sender, System::EventArgs^ e);
 private: System::Void dailyTimetable_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e);
+private: System::Void Diagram_Click(System::Object^ sender, System::EventArgs^ e) {
+}
 };
 }
