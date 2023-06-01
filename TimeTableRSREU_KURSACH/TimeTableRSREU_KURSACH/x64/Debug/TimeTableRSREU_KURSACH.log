@@ -1,10 +1,8 @@
 ﻿  MyForm.cpp
-C:\Users\AT241\source\repos\TimeTableRSREU_KURSACH\TimeTableRSREU_KURSACH\MyForm.cpp(165,9): warning C4244: инициализация: преобразование "wchar_t" в "char", возможна потеря данных
-  TimeTableRSREU_KURSACH.cpp
-  Создание кода...
-C:\Users\AT241\source\repos\TimeTableRSREU_KURSACH\TimeTableRSREU_KURSACH\MyForm.cpp(148): warning C4715: countLessons: значение возвращается не при всех путях выполнения
-C:\Users\AT241\source\repos\TimeTableRSREU_KURSACH\TimeTableRSREU_KURSACH\MyForm.cpp(161): warning C4715: seekDay: значение возвращается не при всех путях выполнения
-C:\Users\AT241\source\repos\TimeTableRSREU_KURSACH\TimeTableRSREU_KURSACH\MyForm.cpp(177): warning C4715: printDayWeek: значение возвращается не при всех путях выполнения
-C:\Users\AT241\source\repos\TimeTableRSREU_KURSACH\TimeTableRSREU_KURSACH\MyForm.cpp(200): warning C4715: countLessons: значение возвращается не при всех путях выполнения
+C:\Users\AT241\source\repos\TimeTableRSREU_KURSACH\TimeTableRSREU_KURSACH\MyForm.cpp(159,9): warning C4244: инициализация: преобразование "wchar_t" в "char", возможна потеря данных
+C:\Users\AT241\source\repos\TimeTableRSREU_KURSACH\TimeTableRSREU_KURSACH\MyForm.cpp(142): warning C4715: countLessons: значение возвращается не при всех путях выполнения
+C:\Users\AT241\source\repos\TimeTableRSREU_KURSACH\TimeTableRSREU_KURSACH\MyForm.cpp(155): warning C4715: seekDay: значение возвращается не при всех путях выполнения
+C:\Users\AT241\source\repos\TimeTableRSREU_KURSACH\TimeTableRSREU_KURSACH\MyForm.cpp(171): warning C4715: printDayWeek: значение возвращается не при всех путях выполнения
+C:\Users\AT241\source\repos\TimeTableRSREU_KURSACH\TimeTableRSREU_KURSACH\MyForm.cpp(194): warning C4715: countLessonsType: значение возвращается не при всех путях выполнения
   AssemblyInfo.obj : обнаружен модуль MSIL; для MSIL последовательная компоновка отключена; выполняется полная компоновка
   TimeTableRSREU_KURSACH.vcxproj -> C:\Users\AT241\source\repos\TimeTableRSREU_KURSACH\x64\Debug\TimeTableRSREU_KURSACH.exe

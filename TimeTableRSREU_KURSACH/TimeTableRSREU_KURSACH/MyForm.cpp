@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "MyForm.h"
+#include "Struct.h"
 #include <algorithm>
-
 
 using namespace System;
 using namespace System::Windows::Forms;
@@ -13,18 +13,9 @@ String^ initDay()
     return x2->DayOfWeek.ToString();
 }
 
-ref struct FileManager {
-public:
-	String^ chooseweek = "  ";
-	String^ numlesson = "  ";
-	String^ typelesson = "  ";
-	String^ namelesson = "  ";
-	String^ lessplace = "  ";
-};
-
 bool isDayofWeek(String^ data) // Проверка строки на принадлежность к значению дня недели
 {
-	if (data=="Monday"|| data == "Tuesday" || data == "Wednesday" || data == "Thursday" || data == "Friday")
+	if (data=="Monday"|| data == "Tuesday" || data == "Wednesday" || data == "Thursday" || data == "Friday" || data == "Выходные")
 	{ 
 		return 1;
 	}
@@ -116,8 +107,11 @@ String^ findDay(List<FileManager^>^ fm,int padd) // padd - "смещение" дня
 	{
 		if (dt->DayOfWeek.ToString() == Days[i])
 		{
-			if (i + padd <= 4)
+			if (i + padd <= 5){
 				day = Days[i + padd];
+				/*if (Days[i + padd] == "Выходные")
+					return "Weekend"; */// Вернуть другое значение, чтобы не было исключений
+			}
 			else return "Weekend";
 		}
 	}
@@ -127,7 +121,7 @@ String^ findDay(List<FileManager^>^ fm,int padd) // padd - "смещение" дня
 int countLessons(List<FileManager^>^ fm, int padd)
 {
 	int start;
-	for (int i = 0; i < fm->Count; i++)
+	for (int i = 0; i < fm->Count-1; i++)
 	{
 		if (fm[i]->chooseweek == findDay(fm, padd)) // Don't forget exceptions
 		{
@@ -176,9 +170,9 @@ String^ printDayWeek(String^ day)
 	}
 }
 
-int countLessons(List<FileManager^>^ fm, String^ lesson, String^ week)
+int countLessonsType(List<FileManager^>^ fm, String^ lesson, String^ week)
 {
-	if (!(week == "числитель" || week == "Числитель" || week == "знаменатель" || week == "Знаменатель")) {
+	if (!(week == "Числитель" || week == "Знаменатель")) {
 		//DevRequest->Text="ВВЕДИТЕ УЧ. НЕДЕЛЮ!";
 		return 0;
 	}
@@ -187,15 +181,15 @@ int countLessons(List<FileManager^>^ fm, String^ lesson, String^ week)
 	{
 		if (fm[i]->typelesson == lesson) 
 		{
-			if((week == "числитель" || week == "Числитель")&&(fm[i]->chooseweek->ToString() == "  (числитель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)"))
+			if((week == "Числитель")&&(fm[i]->chooseweek->ToString() == "  (числитель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)"))
 				cntch++;
-			if ((week == "знаменатель" || week == "Знаменатель") && (fm[i]->chooseweek->ToString() == "  (знаменатель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)"))
+			if ((week == "Знаменатель") && (fm[i]->chooseweek->ToString() == "  (знаменатель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)"))
 				cntzn++;
 		}
 	}
-	if ((week == "числитель" || week == "Числитель"))
+	if ((week == "Числитель"))
 		return cntch;
-	if ((week == "знаменатель" || week == "Знаменатель"))
+	if ((week == "Знаменатель"))
 		return cntzn;
 }
 
@@ -222,9 +216,13 @@ System::Void TimeTableRSREUKURSACH::MyForm::TodayTt_Click(System::Object^ sender
 {
 	dailyTimetable->Rows->Clear();
 	List<FileManager^>^ fm = readdocument();
-	if ((Week->Text == "числитель" || Week->Text == "Числитель" || Week->Text == "знаменатель" || Week->Text == "Знаменатель")) {
+	if ((CheckZnam->Checked == true)||(CheckChisl->Checked == true)) {
 		for (int i = 0; i < countLessons(fm, 0); i++)
 			dailyTimetable->Rows->Add();
+	}
+	else
+	{
+		MessageBox::Show("Выберите неделю: числитель либо знаменатель!", "Внимание!");
 	}
 	if (findDay(fm, 0) == "Weekend")
 	{
@@ -234,7 +232,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::TodayTt_Click(System::Object^ sender
 	int startpoint = seekDay(fm, findDay(fm, 0));
 	for (int i = startpoint; i<fm->Count; i++)
 	{
-		if (!(Week->Text == "числитель" || Week->Text == "Числитель" || Week->Text == "знаменатель" || Week->Text == "Знаменатель")) {
+		if (!((CheckZnam->Checked == true) || (CheckChisl->Checked == true))) {
 			
 			break;
 		}
@@ -246,7 +244,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::TodayTt_Click(System::Object^ sender
 		int j = 0;
 		while(!(fm[j]->chooseweek == findDay(fm, 1)))
 		{
-			if (Week->Text == "числитель" || Week->Text == "Числитель")
+			if (CheckChisl->Checked == true)
 			{
 				if (fm[i]->chooseweek->ToString() == "  (числитель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
 				{
@@ -261,7 +259,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::TodayTt_Click(System::Object^ sender
 					break;
 				}
 			}
-			if (Week->Text == "знаменатель" || Week->Text == "Знаменатель")
+			if (CheckZnam->Checked == true)
 			{
 				if (fm[i]->chooseweek->ToString() == "  (знаменатель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
 				{
@@ -288,19 +286,23 @@ System::Void TimeTableRSREUKURSACH::MyForm::TomorrowTt_Click(System::Object^ sen
 {
 	dailyTimetable->Rows->Clear();
 	List<FileManager^>^ fm = readdocument();
-	if ((Week->Text == "числитель" || Week->Text == "Числитель" || Week->Text == "знаменатель" || Week->Text == "Знаменатель")) {
+	if ((CheckZnam->Checked == true) || (CheckChisl->Checked == true)) {
 		for (int i = 0; i < countLessons(fm,1); i++)
 			dailyTimetable->Rows->Add();
 	}
-	if (findDay(fm, 1) == "Weekend")
+	else
+	{
+		MessageBox::Show("Введите неделю: числитель либо знаменатель!", "Внимание!");
+	}
+	if (findDay(fm, 1) == "Weekend" || findDay(fm, 1) == "Выходные")
 	{
 		dailyTimetable->Rows[0]->Cells[2]->Value = "Weekend";
 		return System::Void();
 	}
 	int startpoint = seekDay(fm, findDay(fm, 1));
-	for (int i = startpoint; i < fm->Count; i++)
+	for (int i = startpoint; i < fm->Count-1; i++)
 	{
-		if (!(Week->Text == "числитель" || Week->Text == "Числитель" || Week->Text == "знаменатель" || Week->Text == "Знаменатель")) {
+		if (!((CheckZnam->Checked == true) || (CheckChisl->Checked == true))) {
 
 			break;
 		}
@@ -312,7 +314,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::TomorrowTt_Click(System::Object^ sen
 		int j = 0;
 		while (!(fm[j]->chooseweek == findDay(fm, 2)))
 		{
-			if (Week->Text == "числитель" || Week->Text == "Числитель")
+			if (CheckChisl->Checked == true)
 			{
 				if (fm[i]->chooseweek->ToString() == "  (числитель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
 				{
@@ -327,7 +329,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::TomorrowTt_Click(System::Object^ sen
 					break;
 				}
 			}
-			if (Week->Text == "знаменатель" || Week->Text == "Знаменатель")
+			if (CheckZnam->Checked == true)
 			{
 				if (fm[i]->chooseweek->ToString() == "  (знаменатель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
 				{
@@ -354,11 +356,15 @@ System::Void TimeTableRSREUKURSACH::MyForm::PostTomorrowTt_Click(System::Object^
 {
 	dailyTimetable->Rows->Clear();
 	List<FileManager^>^ fm = readdocument();
-	if ((Week->Text == "числитель" || Week->Text == "Числитель" || Week->Text == "знаменатель" || Week->Text == "Знаменатель")) {
+	if ((CheckZnam->Checked == true) || (CheckChisl->Checked == true)) {
 		for (int i = 0; i < countLessons(fm,2); i++)
 			dailyTimetable->Rows->Add();
 	}
-	if (findDay(fm, 2) == "Weekend")
+	else
+	{
+		MessageBox::Show("Введите неделю: числитель либо знаменатель!", "Внимание!");
+	}
+	if (findDay(fm, 2) == "Weekend" || findDay(fm, 2) == "Выходные")
 	{
 		dailyTimetable->Rows[0]->Cells[2]->Value = "Weekend";
 		return System::Void();
@@ -366,7 +372,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::PostTomorrowTt_Click(System::Object^
 	int startpoint = seekDay(fm, findDay(fm, 2));
 	for (int i = startpoint; i < fm->Count; i++)
 	{
-		if (!(Week->Text == "числитель" || Week->Text == "Числитель" || Week->Text == "знаменатель" || Week->Text == "Знаменатель")) {
+		if (!((CheckZnam->Checked == true) || (CheckChisl->Checked == true))) {
 			break;
 		}
 		if (fm[i]->chooseweek == findDay(fm, 2))
@@ -377,7 +383,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::PostTomorrowTt_Click(System::Object^
 		int j = 0;
 		while (!(fm[j]->chooseweek == findDay(fm, 3)))
 		{
-			if (Week->Text == "числитель" || Week->Text == "Числитель")
+			if (CheckChisl->Checked == true)
 			{
 				if (fm[i]->chooseweek->ToString() == "  (числитель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
 				{
@@ -392,7 +398,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::PostTomorrowTt_Click(System::Object^
 					break;
 				}
 			}
-			if (Week->Text == "знаменатель" || Week->Text == "Знаменатель")
+			if (CheckZnam->Checked == true)
 			{
 				if (fm[i]->chooseweek->ToString() == "  (знаменатель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
 				{
@@ -423,10 +429,10 @@ System::Void TimeTableRSREUKURSACH::MyForm::ThisWeekTt_Click(System::Object^ sen
 	for (int i = 0; i < 18; i++)
 		dailyTimetable->Rows->Add();
 	int j = 0;
-	for (int i = 0; i < fm->Count; i++)
+	for (int i = 0; i < fm->Count-1; i++)
 	{
-		if (!(Week->Text == "числитель" || Week->Text == "Числитель" || Week->Text == "знаменатель" || Week->Text == "Знаменатель")) {
-			//DevRequest->Text="ВВЕДИТЕ УЧ. НЕДЕЛЮ!";
+		if (!((CheckZnam->Checked == true) || (CheckChisl->Checked == true))) {
+			MessageBox::Show("Введите неделю: числитель либо знаменатель!", "Внимание!");
 			break;
 		}
 		if (isDayofWeek(fm[i]->chooseweek))
@@ -434,7 +440,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::ThisWeekTt_Click(System::Object^ sen
 			dailyTimetable->Rows[j]->Cells[4]->Value = printDayWeek(fm[i]->chooseweek);
 			i++;
 		}
-		if (Week->Text == "знаменатель" || Week->Text == "Знаменатель")
+		if (CheckZnam->Checked == true)
 		{
 			if (fm[i]->chooseweek->ToString() == "  (знаменатель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
 			{
@@ -445,7 +451,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::ThisWeekTt_Click(System::Object^ sen
 				j++;
 			}
 		}
-		if (Week->Text == "числитель" || Week->Text == "Числитель")
+		if (CheckChisl->Checked == true)
 		{
 			if (fm[i]->chooseweek->ToString() == "  (числитель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
 			{
@@ -468,10 +474,10 @@ System::Void TimeTableRSREUKURSACH::MyForm::NextWeekTt_Click(System::Object^ sen
 	for (int i = 0; i < 18; i++)
 		dailyTimetable->Rows->Add();
 	int j = 0;
-	for (int i = 0; i < fm->Count; i++)
+	for (int i = 0; i < fm->Count-1; i++)
 	{
-		if (!(Week->Text == "числитель" || Week->Text == "Числитель" || Week->Text == "знаменатель" || Week->Text == "Знаменатель")) {
-			//DevRequest->Text="ВВЕДИТЕ УЧ. НЕДЕЛЮ!";
+		if (!((CheckZnam->Checked == true) || (CheckChisl->Checked == true))) {
+			MessageBox::Show("Введите неделю: числитель либо знаменатель!", "Внимание!");
 			break;
 		}
 		if (isDayofWeek(fm[i]->chooseweek))
@@ -479,7 +485,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::NextWeekTt_Click(System::Object^ sen
 			dailyTimetable->Rows[j]->Cells[4]->Value = printDayWeek(fm[i]->chooseweek);
 			i++;
 		}
-		if (Week->Text == "знаменатель" || Week->Text == "Знаменатель")
+		if (CheckZnam->Checked == true)
 		{
 			if (fm[i]->chooseweek->ToString() == "  (числитель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
 			{
@@ -490,7 +496,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::NextWeekTt_Click(System::Object^ sen
 				j++;
 			}
 		}
-		if (Week->Text == "числитель" || Week->Text == "Числитель")
+		if (CheckChisl->Checked == true)
 		{
 			if (fm[i]->chooseweek->ToString() == "  (знаменатель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
 			{
@@ -513,10 +519,10 @@ System::Void TimeTableRSREUKURSACH::MyForm::EVMTt_Click(System::Object^ sender, 
 	for (int i = 0; i < 6; i++)
 		dailyTimetable->Rows->Add();
 	int j = 0; String^ day;
-	for (int i = 0; i < fm->Count; i++)
+	for (int i = 0; i < fm->Count-1; i++)
 	{
-		if (!(Week->Text == "числитель" || Week->Text == "Числитель" || Week->Text == "знаменатель" || Week->Text == "Знаменатель")) {
-			//DevRequest->Text="ВВЕДИТЕ УЧ. НЕДЕЛЮ!";
+		if (!((CheckZnam->Checked == true) || (CheckChisl->Checked == true))) {
+			MessageBox::Show("Введите неделю: числитель либо знаменатель!", "Внимание!");
 			break;
 		}
 		if (isDayofWeek(fm[i]->chooseweek))
@@ -526,7 +532,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::EVMTt_Click(System::Object^ sender, 
 		}
 		if(fm[i]->lessplace=="   а. 209" || fm[i]->lessplace == "   а. 210" || fm[i]->lessplace == "   а. 122" || fm[i]->lessplace == "   а. 02/1" || fm[i]->lessplace == "   а. 02/2" || fm[i]->lessplace == "   а. 32")
 		{	
-		if (Week->Text == "знаменатель" || Week->Text == "Знаменатель")
+			if (CheckZnam->Checked == true)
 		{
 			if (fm[i]->chooseweek->ToString() == "  (числитель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
 			{
@@ -538,7 +544,7 @@ System::Void TimeTableRSREUKURSACH::MyForm::EVMTt_Click(System::Object^ sender, 
 				j++;
 			}
 		}
-		if (Week->Text == "числитель" || Week->Text == "Числитель")
+		if (CheckChisl->Checked == true)
 		{
 			if (fm[i]->chooseweek->ToString() == "  (знаменатель)" || fm[i]->chooseweek->ToString() == "  (еженедельно)")
 			{
@@ -557,15 +563,21 @@ System::Void TimeTableRSREUKURSACH::MyForm::EVMTt_Click(System::Object^ sender, 
 
 System::Void TimeTableRSREUKURSACH::MyForm::Diagramma_Click(System::Object^ sender, System::EventArgs^ e)
 {
+	if (!((CheckZnam->Checked == true) || (CheckChisl->Checked == true))) {
+		MessageBox::Show("Введите неделю: числитель либо знаменатель!", "Внимание!");
+		return System::Void();
+	}
 	List<FileManager^>^ fm = readdocument();
+	String^ week;
+	if (CheckChisl->Checked == true)
+		week = CheckChisl->Text;
+	if (CheckZnam->Checked == true)
+		week = CheckZnam->Text;
 	Diagram->Visible = true;
-	Diagram->Series->Clear();
-	Diagram->Series->Add("упр.");
-	Diagram->Series["упр."]->Points->Add(countLessons(fm, "   упр.", Week->Text));
-	Diagram->Series->Add("лек.");
-	Diagram->Series["лек."]->Points->Add(countLessons(fm, "   лек.", Week->Text));
-	Diagram->Series->Add("лаб.");
-	Diagram->Series["лаб."]->Points->Add(countLessons(fm, "   лаб.", Week->Text));
+	Diagram->Series[0]->Points->Clear();
+	Diagram->Series[0]->Points->AddXY("упр.", countLessonsType(fm, "   упр.", week));
+	Diagram->Series[0]->Points->AddXY("лек.", countLessonsType(fm, "   лек.", week));
+	Diagram->Series[0]->Points->AddXY("лаб.",countLessonsType(fm, "   лаб.", week));
 	return System::Void();
 }
 
@@ -576,5 +588,19 @@ System::Void TimeTableRSREUKURSACH::MyForm::Week_TextChanged(System::Object^ sen
 
 System::Void TimeTableRSREUKURSACH::MyForm::dailyTimetable_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e)
 {
+	return System::Void();
+}
+
+System::Void TimeTableRSREUKURSACH::MyForm::radioButton2_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+{
+	if (CheckZnam->Checked == true)
+		CheckChisl->Checked = false;
+	return System::Void();
+}
+
+System::Void TimeTableRSREUKURSACH::MyForm::CheckZnam_CheckedChanged(System::Object^ sender, System::EventArgs^ e)
+{
+	if (CheckChisl->Checked == true)
+		CheckZnam->Checked = false;
 	return System::Void();
 }

@@ -48,7 +48,7 @@ namespace TimeTableRSREUKURSACH {
 
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Name1;
 
-	private: System::Windows::Forms::TextBox^ Week;
+
 
 	private: System::Windows::Forms::Label^ DevRequest;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Numb;
@@ -57,6 +57,10 @@ namespace TimeTableRSREUKURSACH {
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ audit;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ WeekDay;
 	private: System::Windows::Forms::DataVisualization::Charting::Chart^ Diagram;
+	private: System::Windows::Forms::RadioButton^ CheckZnam;
+
+	private: System::Windows::Forms::RadioButton^ CheckChisl;
+
 
 
 
@@ -108,9 +112,10 @@ namespace TimeTableRSREUKURSACH {
 			this->Name = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->audit = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
 			this->WeekDay = (gcnew System::Windows::Forms::DataGridViewTextBoxColumn());
-			this->Week = (gcnew System::Windows::Forms::TextBox());
 			this->DevRequest = (gcnew System::Windows::Forms::Label());
 			this->Diagram = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
+			this->CheckZnam = (gcnew System::Windows::Forms::RadioButton());
+			this->CheckChisl = (gcnew System::Windows::Forms::RadioButton());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dailyTimetable))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Diagram))->BeginInit();
 			this->SuspendLayout();
@@ -322,15 +327,6 @@ namespace TimeTableRSREUKURSACH {
 			this->WeekDay->ReadOnly = true;
 			this->WeekDay->Width = 90;
 			// 
-			// Week
-			// 
-			this->Week->BackColor = System::Drawing::SystemColors::Menu;
-			this->Week->Location = System::Drawing::Point(582, 249);
-			this->Week->Name = L"Week";
-			this->Week->Size = System::Drawing::Size(191, 22);
-			this->Week->TabIndex = 9;
-			this->Week->TextChanged += gcnew System::EventHandler(this, &MyForm::Week_TextChanged);
-			// 
 			// DevRequest
 			// 
 			this->DevRequest->AutoSize = true;
@@ -368,15 +364,46 @@ namespace TimeTableRSREUKURSACH {
 			this->Diagram->Visible = false;
 			this->Diagram->Click += gcnew System::EventHandler(this, &MyForm::Diagram_Click);
 			// 
+			// CheckZnam
+			// 
+			this->CheckZnam->AutoSize = true;
+			this->CheckZnam->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->CheckZnam->ForeColor = System::Drawing::Color::WhiteSmoke;
+			this->CheckZnam->Location = System::Drawing::Point(582, 278);
+			this->CheckZnam->Name = L"CheckZnam";
+			this->CheckZnam->Size = System::Drawing::Size(133, 22);
+			this->CheckZnam->TabIndex = 13;
+			this->CheckZnam->TabStop = true;
+			this->CheckZnam->Text = L"Знаменатель";
+			this->CheckZnam->UseVisualStyleBackColor = true;
+			this->CheckZnam->CheckedChanged += gcnew System::EventHandler(this, &MyForm::CheckZnam_CheckedChanged);
+			// 
+			// CheckChisl
+			// 
+			this->CheckChisl->AutoSize = true;
+			this->CheckChisl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->CheckChisl->ForeColor = System::Drawing::Color::WhiteSmoke;
+			this->CheckChisl->Location = System::Drawing::Point(582, 252);
+			this->CheckChisl->Name = L"CheckChisl";
+			this->CheckChisl->Size = System::Drawing::Size(113, 22);
+			this->CheckChisl->TabIndex = 14;
+			this->CheckChisl->TabStop = true;
+			this->CheckChisl->Text = L"Числитель";
+			this->CheckChisl->UseVisualStyleBackColor = true;
+			this->CheckChisl->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton2_CheckedChanged);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::None;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(69)), static_cast<System::Int32>(static_cast<System::Byte>(69)),
 				static_cast<System::Int32>(static_cast<System::Byte>(69)));
 			this->ClientSize = System::Drawing::Size(992, 495);
+			this->Controls->Add(this->CheckChisl);
+			this->Controls->Add(this->CheckZnam);
 			this->Controls->Add(this->Diagram);
 			this->Controls->Add(this->DevRequest);
-			this->Controls->Add(this->Week);
 			this->Controls->Add(this->dailyTimetable);
 			this->Controls->Add(this->Diagramma);
 			this->Controls->Add(this->EVMTt);
@@ -391,7 +418,7 @@ namespace TimeTableRSREUKURSACH {
 			this->ForeColor = System::Drawing::Color::Black;
 			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
-		//	this->Name = L"MyForm";
+			//this->Name = L"MyForm";
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"RSREU Timetable";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
@@ -417,5 +444,7 @@ private: System::Void Week_TextChanged(System::Object^ sender, System::EventArgs
 private: System::Void dailyTimetable_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e);
 private: System::Void Diagram_Click(System::Object^ sender, System::EventArgs^ e) {
 }
+private: System::Void radioButton2_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+private: System::Void CheckZnam_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 };
 }
