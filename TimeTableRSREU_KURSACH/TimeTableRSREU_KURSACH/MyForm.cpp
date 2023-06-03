@@ -95,6 +95,10 @@ String^ findDay(List<FileManager^>^ fm,int padd) // padd - "смещение" дня
 {
 	List<String^> Days;
 	DateTime^ dt = DateTime::Now;
+	if ((dt->DayOfWeek.ToString() == "Saturday" || dt->ToString() == "Sunday")&&(padd==0)||((dt->DayOfWeek.ToString() == "Saturday") && (padd == 1)))
+	{
+		return "Weekend"; // Обработка поведения расписания на выходных
+	}
 	for (int i=0; i<fm->Count; i++)
 	{
 		if (isDayofWeek(fm[i]->chooseweek))
@@ -107,12 +111,17 @@ String^ findDay(List<FileManager^>^ fm,int padd) // padd - "смещение" дня
 	{
 		if (dt->DayOfWeek.ToString() == Days[i])
 		{
-			if (i + padd <= 5){
+			if (i + padd <= 5) {
 				day = Days[i + padd];
-				/*if (Days[i + padd] == "Выходные")
-					return "Weekend"; */// Вернуть другое значение, чтобы не было исключений
 			}
 			else return "Weekend";
+		}
+		if (dt->DayOfWeek.ToString() == "Saturday" || dt->DayOfWeek.ToString() == "Sunday")
+		{
+			if(dt->DayOfWeek.ToString() == "Saturday" && padd>1)
+				day = Days[padd];
+			if (dt->DayOfWeek.ToString() == "Sunday" && padd > 0)
+				day = Days[padd];
 		}
 	}
 	return day;
@@ -200,7 +209,6 @@ int main()
 	Application::EnableVisualStyles();
 	TimeTableRSREUKURSACH::MyForm form;
 	Application::Run(% form);
-
 }
 
 System::Void TimeTableRSREUKURSACH::MyForm::closing_bt_Click(System::Object^ sender, System::EventArgs^ e)
