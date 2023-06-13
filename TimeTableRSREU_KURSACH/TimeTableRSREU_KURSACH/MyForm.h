@@ -34,7 +34,7 @@ namespace TimeTableRSREUKURSACH {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Button^ closing_bt;
+
 	private: System::Windows::Forms::Button^ TodayTt;
 	private: System::Windows::Forms::Button^ TomorrowTt;
 	private: System::Windows::Forms::Button^ PostTomorrowTt;
@@ -51,15 +51,25 @@ namespace TimeTableRSREUKURSACH {
 
 
 	private: System::Windows::Forms::Label^ DevRequest;
+
+
+
+
+
+	private: System::Windows::Forms::DataVisualization::Charting::Chart^ Diagram;
+	private: System::Windows::Forms::RadioButton^ CheckZnam;
+
+	private: System::Windows::Forms::RadioButton^ CheckChisl;
+	private: System::Windows::Forms::CheckBox^ Tutor;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Numb;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ type;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ Name;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ audit;
 	private: System::Windows::Forms::DataGridViewTextBoxColumn^ WeekDay;
-	private: System::Windows::Forms::DataVisualization::Charting::Chart^ Diagram;
-	private: System::Windows::Forms::RadioButton^ CheckZnam;
+	private: System::Windows::Forms::Button^ SaveCh;
 
-	private: System::Windows::Forms::RadioButton^ CheckChisl;
+
+
 
 
 
@@ -98,7 +108,6 @@ namespace TimeTableRSREUKURSACH {
 			System::Windows::Forms::DataVisualization::Charting::Legend^ legend1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Legend());
 			System::Windows::Forms::DataVisualization::Charting::Series^ series1 = (gcnew System::Windows::Forms::DataVisualization::Charting::Series());
 			System::ComponentModel::ComponentResourceManager^ resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
-			this->closing_bt = (gcnew System::Windows::Forms::Button());
 			this->TodayTt = (gcnew System::Windows::Forms::Button());
 			this->TomorrowTt = (gcnew System::Windows::Forms::Button());
 			this->PostTomorrowTt = (gcnew System::Windows::Forms::Button());
@@ -116,28 +125,15 @@ namespace TimeTableRSREUKURSACH {
 			this->Diagram = (gcnew System::Windows::Forms::DataVisualization::Charting::Chart());
 			this->CheckZnam = (gcnew System::Windows::Forms::RadioButton());
 			this->CheckChisl = (gcnew System::Windows::Forms::RadioButton());
+			this->Tutor = (gcnew System::Windows::Forms::CheckBox());
+			this->SaveCh = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->dailyTimetable))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Diagram))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// closing_bt
-			// 
-			this->closing_bt->BackColor = System::Drawing::Color::DarkOrange;
-			this->closing_bt->BackgroundImageLayout = System::Windows::Forms::ImageLayout::None;
-			this->closing_bt->Cursor = System::Windows::Forms::Cursors::Hand;
-			this->closing_bt->FlatStyle = System::Windows::Forms::FlatStyle::Popup;
-			this->closing_bt->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.8F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(204)));
-			this->closing_bt->Location = System::Drawing::Point(934, 12);
-			this->closing_bt->Name = L"closing_bt";
-			this->closing_bt->Size = System::Drawing::Size(37, 34);
-			this->closing_bt->TabIndex = 0;
-			this->closing_bt->Text = L"Х";
-			this->closing_bt->UseVisualStyleBackColor = false;
-			this->closing_bt->Click += gcnew System::EventHandler(this, &MyForm::closing_bt_Click);
-			// 
 			// TodayTt
 			// 
+			this->TodayTt->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
 			this->TodayTt->BackColor = System::Drawing::Color::WhiteSmoke;
 			this->TodayTt->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->TodayTt->Font = (gcnew System::Drawing::Font(L"Arial", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
@@ -154,6 +150,7 @@ namespace TimeTableRSREUKURSACH {
 			// 
 			// TomorrowTt
 			// 
+			this->TomorrowTt->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->TomorrowTt->BackColor = System::Drawing::Color::WhiteSmoke;
 			this->TomorrowTt->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->TomorrowTt->Font = (gcnew System::Drawing::Font(L"Arial", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
@@ -170,6 +167,7 @@ namespace TimeTableRSREUKURSACH {
 			// 
 			// PostTomorrowTt
 			// 
+			this->PostTomorrowTt->Anchor = System::Windows::Forms::AnchorStyles::Right;
 			this->PostTomorrowTt->BackColor = System::Drawing::Color::WhiteSmoke;
 			this->PostTomorrowTt->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->PostTomorrowTt->Font = (gcnew System::Drawing::Font(L"Arial", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
@@ -186,6 +184,7 @@ namespace TimeTableRSREUKURSACH {
 			// 
 			// ThisWeekTt
 			// 
+			this->ThisWeekTt->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
 			this->ThisWeekTt->BackColor = System::Drawing::Color::WhiteSmoke;
 			this->ThisWeekTt->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->ThisWeekTt->Font = (gcnew System::Drawing::Font(L"Arial", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
@@ -202,6 +201,7 @@ namespace TimeTableRSREUKURSACH {
 			// 
 			// NextWeekTt
 			// 
+			this->NextWeekTt->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Bottom | System::Windows::Forms::AnchorStyles::Right));
 			this->NextWeekTt->BackColor = System::Drawing::Color::WhiteSmoke;
 			this->NextWeekTt->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->NextWeekTt->Font = (gcnew System::Drawing::Font(L"Arial", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
@@ -218,6 +218,7 @@ namespace TimeTableRSREUKURSACH {
 			// 
 			// EVMTt
 			// 
+			this->EVMTt->Anchor = System::Windows::Forms::AnchorStyles::Bottom;
 			this->EVMTt->BackColor = System::Drawing::Color::WhiteSmoke;
 			this->EVMTt->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->EVMTt->Font = (gcnew System::Drawing::Font(L"Arial", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
@@ -234,6 +235,7 @@ namespace TimeTableRSREUKURSACH {
 			// 
 			// Diagramma
 			// 
+			this->Diagramma->Anchor = System::Windows::Forms::AnchorStyles::Bottom;
 			this->Diagramma->BackColor = System::Drawing::Color::WhiteSmoke;
 			this->Diagramma->FlatStyle = System::Windows::Forms::FlatStyle::Flat;
 			this->Diagramma->Font = (gcnew System::Drawing::Font(L"Arial", 10, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
@@ -250,6 +252,9 @@ namespace TimeTableRSREUKURSACH {
 			// 
 			// dailyTimetable
 			// 
+			this->dailyTimetable->AllowDrop = true;
+			this->dailyTimetable->AllowUserToResizeColumns = false;
+			this->dailyTimetable->AllowUserToResizeRows = false;
 			this->dailyTimetable->BackgroundColor = System::Drawing::SystemColors::ActiveBorder;
 			dataGridViewCellStyle1->Alignment = System::Windows::Forms::DataGridViewContentAlignment::MiddleLeft;
 			dataGridViewCellStyle1->BackColor = System::Drawing::SystemColors::Control;
@@ -274,12 +279,13 @@ namespace TimeTableRSREUKURSACH {
 			dataGridViewCellStyle2->SelectionForeColor = System::Drawing::SystemColors::HighlightText;
 			dataGridViewCellStyle2->WrapMode = System::Windows::Forms::DataGridViewTriState::False;
 			this->dailyTimetable->DefaultCellStyle = dataGridViewCellStyle2;
+			this->dailyTimetable->Dock = System::Windows::Forms::DockStyle::Left;
 			this->dailyTimetable->GridColor = System::Drawing::SystemColors::ActiveCaptionText;
-			this->dailyTimetable->Location = System::Drawing::Point(12, 12);
+			this->dailyTimetable->Location = System::Drawing::Point(0, 0);
 			this->dailyTimetable->Name = L"dailyTimetable";
 			this->dailyTimetable->RowHeadersWidth = 51;
 			this->dailyTimetable->RowTemplate->Height = 24;
-			this->dailyTimetable->Size = System::Drawing::Size(558, 467);
+			this->dailyTimetable->Size = System::Drawing::Size(558, 495);
 			this->dailyTimetable->TabIndex = 8;
 			this->dailyTimetable->CellContentClick += gcnew System::Windows::Forms::DataGridViewCellEventHandler(this, &MyForm::dailyTimetable_CellContentClick);
 			// 
@@ -289,7 +295,6 @@ namespace TimeTableRSREUKURSACH {
 			this->Numb->HeaderText = L"N";
 			this->Numb->MinimumWidth = 6;
 			this->Numb->Name = L"Numb";
-			this->Numb->ReadOnly = true;
 			this->Numb->Width = 45;
 			// 
 			// type
@@ -298,7 +303,6 @@ namespace TimeTableRSREUKURSACH {
 			this->type->HeaderText = L"Тип занятия";
 			this->type->MinimumWidth = 6;
 			this->type->Name = L"type";
-			this->type->ReadOnly = true;
 			this->type->Width = 70;
 			// 
 			// Name
@@ -307,7 +311,6 @@ namespace TimeTableRSREUKURSACH {
 			this->Name->HeaderText = L"Название предмета";
 			this->Name->MinimumWidth = 6;
 			this->Name->Name = L"Name";
-			this->Name->ReadOnly = true;
 			this->Name->Width = 210;
 			// 
 			// audit
@@ -316,7 +319,6 @@ namespace TimeTableRSREUKURSACH {
 			this->audit->HeaderText = L"Аудитория";
 			this->audit->MinimumWidth = 6;
 			this->audit->Name = L"audit";
-			this->audit->ReadOnly = true;
 			this->audit->Width = 90;
 			// 
 			// WeekDay
@@ -329,6 +331,9 @@ namespace TimeTableRSREUKURSACH {
 			// 
 			// DevRequest
 			// 
+			this->DevRequest->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->DevRequest->AutoSize = true;
 			this->DevRequest->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
@@ -341,6 +346,7 @@ namespace TimeTableRSREUKURSACH {
 			// 
 			// Diagram
 			// 
+			this->Diagram->Anchor = System::Windows::Forms::AnchorStyles::Top;
 			this->Diagram->BackColor = System::Drawing::Color::DarkGray;
 			this->Diagram->BackSecondaryColor = System::Drawing::Color::DarkGray;
 			this->Diagram->BorderlineColor = System::Drawing::Color::DarkGray;
@@ -366,6 +372,9 @@ namespace TimeTableRSREUKURSACH {
 			// 
 			// CheckZnam
 			// 
+			this->CheckZnam->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->CheckZnam->AutoSize = true;
 			this->CheckZnam->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
@@ -381,6 +390,9 @@ namespace TimeTableRSREUKURSACH {
 			// 
 			// CheckChisl
 			// 
+			this->CheckChisl->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Bottom)
+				| System::Windows::Forms::AnchorStyles::Left)
+				| System::Windows::Forms::AnchorStyles::Right));
 			this->CheckChisl->AutoSize = true;
 			this->CheckChisl->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
@@ -394,12 +406,44 @@ namespace TimeTableRSREUKURSACH {
 			this->CheckChisl->UseVisualStyleBackColor = true;
 			this->CheckChisl->CheckedChanged += gcnew System::EventHandler(this, &MyForm::radioButton2_CheckedChanged);
 			// 
+			// Tutor
+			// 
+			this->Tutor->Anchor = static_cast<System::Windows::Forms::AnchorStyles>((System::Windows::Forms::AnchorStyles::Top | System::Windows::Forms::AnchorStyles::Right));
+			this->Tutor->AutoSize = true;
+			this->Tutor->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->Tutor->ForeColor = System::Drawing::Color::White;
+			this->Tutor->Location = System::Drawing::Point(836, 12);
+			this->Tutor->Name = L"Tutor";
+			this->Tutor->Size = System::Drawing::Size(135, 19);
+			this->Tutor->TabIndex = 15;
+			this->Tutor->Text = L"Преподаватель";
+			this->Tutor->UseVisualStyleBackColor = true;
+			this->Tutor->CheckedChanged += gcnew System::EventHandler(this, &MyForm::Tutor_CheckedChanged);
+			// 
+			// SaveCh
+			// 
+			this->SaveCh->Anchor = System::Windows::Forms::AnchorStyles::Bottom;
+			this->SaveCh->AutoSize = true;
+			this->SaveCh->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->SaveCh->Location = System::Drawing::Point(582, 309);
+			this->SaveCh->Name = L"SaveCh";
+			this->SaveCh->Size = System::Drawing::Size(192, 170);
+			this->SaveCh->TabIndex = 16;
+			this->SaveCh->Text = L"Сохранить\r\nизменения";
+			this->SaveCh->UseVisualStyleBackColor = true;
+			this->SaveCh->Visible = false;
+			this->SaveCh->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::None;
 			this->BackColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(69)), static_cast<System::Int32>(static_cast<System::Byte>(69)),
 				static_cast<System::Int32>(static_cast<System::Byte>(69)));
 			this->ClientSize = System::Drawing::Size(992, 495);
+			this->Controls->Add(this->SaveCh);
+			this->Controls->Add(this->Tutor);
 			this->Controls->Add(this->CheckChisl);
 			this->Controls->Add(this->CheckZnam);
 			this->Controls->Add(this->Diagram);
@@ -412,13 +456,12 @@ namespace TimeTableRSREUKURSACH {
 			this->Controls->Add(this->PostTomorrowTt);
 			this->Controls->Add(this->TomorrowTt);
 			this->Controls->Add(this->TodayTt);
-			this->Controls->Add(this->closing_bt);
 			this->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 7.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
 			this->ForeColor = System::Drawing::Color::Black;
-			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::None;
 			this->Icon = (cli::safe_cast<System::Drawing::Icon^>(resources->GetObject(L"$this.Icon")));
 			//this->Name = L"MyForm";
+			this->SizeGripStyle = System::Windows::Forms::SizeGripStyle::Show;
 			this->StartPosition = System::Windows::Forms::FormStartPosition::CenterScreen;
 			this->Text = L"RSREU Timetable";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
@@ -432,7 +475,6 @@ namespace TimeTableRSREUKURSACH {
 	private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
 	}
 	
-	private: System::Void closing_bt_Click(System::Object^ sender, System::EventArgs^ e);
 private: System::Void TodayTt_Click(System::Object^ sender, System::EventArgs^ e);
 private: System::Void TomorrowTt_Click(System::Object^ sender, System::EventArgs^ e);
 private: System::Void PostTomorrowTt_Click(System::Object^ sender, System::EventArgs^ e);
@@ -440,11 +482,12 @@ private: System::Void ThisWeekTt_Click(System::Object^ sender, System::EventArgs
 private: System::Void NextWeekTt_Click(System::Object^ sender, System::EventArgs^ e);
 private: System::Void EVMTt_Click(System::Object^ sender, System::EventArgs^ e);
 private: System::Void Diagramma_Click(System::Object^ sender, System::EventArgs^ e);
-private: System::Void Week_TextChanged(System::Object^ sender, System::EventArgs^ e);
 private: System::Void dailyTimetable_CellContentClick(System::Object^ sender, System::Windows::Forms::DataGridViewCellEventArgs^ e);
 private: System::Void Diagram_Click(System::Object^ sender, System::EventArgs^ e) {
 }
 private: System::Void radioButton2_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
 private: System::Void CheckZnam_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+private: System::Void Tutor_CheckedChanged(System::Object^ sender, System::EventArgs^ e);
+private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e);
 };
 }
